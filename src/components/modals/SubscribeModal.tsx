@@ -100,24 +100,25 @@ export function SubscribeModal({ isOpen, onClose }: SubscribeModalProps) {
             onClick={handleClose}
           />
 
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-lg md:w-full z-50 overflow-y-auto"
-          >
-            <div className="luxury-card p-8 md:p-10">
-              {/* Close Button */}
-              <button
-                onClick={handleClose}
-                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
+          {/* Modal Wrapper */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-lg max-h-[90vh] overflow-y-auto pointer-events-auto scrollbar-hide"
+            >
+              <div className="luxury-card p-8 md:p-10 relative">
+                {/* Close Button */}
+                <button
+                  onClick={handleClose}
+                  className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors z-10"
+                >
+                  <X className="h-5 w-5" />
+                </button>
 
-              {submitted ? (
+                {submitted ? (
                 /* Success State */
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -263,8 +264,9 @@ export function SubscribeModal({ isOpen, onClose }: SubscribeModalProps) {
                   </form>
                 </>
               )}
-            </div>
-          </motion.div>
+             </div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

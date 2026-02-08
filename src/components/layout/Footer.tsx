@@ -14,9 +14,6 @@ export function Footer() {
             <h3 className="font-display text-2xl text-primary tracking-wider">
               William Pignatti
             </h3>
-            <p className="text-sm text-muted-foreground font-body italic">
-              Haute Mode Privée
-            </p>
           </div>
 
           {/* Navigation */}
@@ -62,9 +59,6 @@ export function Footer() {
         <div className="gold-divider mt-12 mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© {currentYear} William Pignatti. {t.footer.rights}.</p>
-          <p className="font-display text-xs tracking-wider text-primary/60">
-            Haute Mode Privée
-          </p>
         </div>
       </div>
     </footer>

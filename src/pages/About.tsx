@@ -5,7 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const aboutImage = 'https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?auto=format&fit=crop&w=1200&q=80';
 
 export default function About() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <Layout>
@@ -42,9 +42,6 @@ export default function About() {
                 <h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-primary tracking-wide mb-6">
                   William Pignatti
                 </h1>
-                <p className="text-xl text-muted-foreground italic font-body">
-                  Haute Mode Privée
-                </p>
               </div>
 
               <div className="gold-divider" />
@@ -101,10 +98,10 @@ export default function About() {
                   className="text-center"
                 >
                   <h3 className="font-display text-xl text-primary mb-4 tracking-wide">
-                    {value.title}
+                    {language === 'pt' ? value.titlePt : value.title}
                   </h3>
                   <p className="text-muted-foreground">
-                    {value.description}
+                    {language === 'pt' ? value.descriptionPt : value.description}
                   </p>
                 </motion.div>
               ))}

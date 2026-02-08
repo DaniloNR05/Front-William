@@ -15,7 +15,7 @@ export const translations = {
     },
     hero: {
       title: 'WILLIAM PIGNATTI',
-      subtitle: 'Haute Mode Privée',
+      subtitle: '',
       description: "We create pieces that can be worn for 20 years—and still look new. We don't follow trends. We build legacies.",
       viewCollection: 'View Collection',
       men: 'Men',
@@ -181,7 +181,7 @@ export const translations = {
     },
     hero: {
       title: 'WILLIAM PIGNATTI',
-      subtitle: 'Haute Mode Privée',
+      subtitle: '',
       description: 'Criamos peças para serem usadas por 20 anos — e ainda parecerem novas. Não seguimos tendências. Nós construímos legado.',
       viewCollection: 'Ver Coleção',
       men: 'Homem',

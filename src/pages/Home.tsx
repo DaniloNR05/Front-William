@@ -8,8 +8,9 @@ import { SubscribeModal } from '@/components/modals/SubscribeModal';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 
-// Hero image placeholder - will be replaced with actual image
-const heroImage = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&q=80';
+// Hero images
+const heroDesktop = '/images/hero-desktop.jpg';
+const heroMobile = '/images/hero-mobile.jpg';
 
 export default function Home() {
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
@@ -26,12 +27,18 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-end">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        <div className="absolute inset-0">
+          <picture>
+            <source media="(min-width: 768px)" srcSet={heroDesktop} />
+            <img 
+              src={heroMobile} 
+              alt="Background" 
+              className="w-full h-full object-cover object-top md:object-center"
+              loading="eager"
+            />
+          </picture>
           {/* Overlay Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         </div>
 
         {/* Content */}

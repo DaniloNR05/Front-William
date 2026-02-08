@@ -16,6 +16,7 @@ import { CartSidebar } from "@/components/cart/CartSidebar";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Collections from "@/pages/Collections";
+import Collection from "@/pages/Collection";
 import Contact from "@/pages/Contact";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -23,6 +24,7 @@ import Profile from "@/pages/Profile";
 import Success from "@/pages/Success";
 import Cancel from "@/pages/Cancel";
 import NotFound from "@/pages/NotFound";
+import Admin from "@/pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,21 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
   
   if (!canAccessCollections()) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return <>{children}</>;
+}
+
+// Admin Route - requires admin role
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const { user, isAuthenticated } = useAuth();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (user?.role !== 'admin') {
     return <Navigate to="/" replace />;
   }
   
@@ -70,6 +87,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/collections" element={<Collections />} />
+        <Route path="/collections/:slug" element={<Collection />} />
         <Route path="/contact" element={<Contact />} />
         
         {/* Auth Routes */}
@@ -92,7 +110,15 @@ function AppRoutes() {
         
         {/* Protected Routes */}
         <Route 
-          path="/profile" 
+          path="/admin" 
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          } 
+        />
+        <Route 
+          path="/profile"  
           element={
             <ProfileRoute>
               <Profile />

@@ -4,4 +4,4 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.ex
 
 // App Configuration
 export const APP_NAME = 'William Pignatti';
-export const APP_TAGLINE = 'Haute Mode Privée';
+export const APP_TAGLINE = '';
