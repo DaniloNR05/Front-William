@@ -59,13 +59,18 @@ export default function Collection() {
         // Filter products by collection name (assuming slug matches collection name or needs mapping)
         // In a real app, backend should support filtering by collection slug
         if (collection) {
-            // This logic might need adjustment based on how collection is linked to products in your DB
-            // Here we try to match by collection name (en) as stored in product
-             const filtered = allProducts.filter(p => 
-                p.collection.toLowerCase() === collection?.name_en.toLowerCase() ||
-                p.collection.toLowerCase() === collection?.name_pt.toLowerCase() ||
-                p.collection.toLowerCase() === slug?.replace(/-/g, ' ')
-            );
+            // Filter products by collection name (PT or EN)
+             const filtered = allProducts.filter(p => {
+                // Normalize strings for comparison
+                const productCollection = p.collection.toLowerCase().trim();
+                const collectionNameEn = collection.name_en.toLowerCase().trim();
+                const collectionNamePt = collection.name_pt.toLowerCase().trim();
+                const slugName = slug?.replace(/-/g, ' ').toLowerCase().trim() || '';
+
+                return productCollection === collectionNameEn || 
+                       productCollection === collectionNamePt ||
+                       productCollection === slugName;
+             });
             setProducts(filtered);
         } else {
              // Fallback filtering if collection object isn't found but slug is
