@@ -57,6 +57,7 @@ interface Product {
   description_en: string;
   price: number;
   image: string;
+  image_hover?: string;
   collection: string;
   gender: string;
 }
@@ -90,6 +91,7 @@ export default function Admin() {
     description_en: '',
     price: '',
     image: '',
+    image_hover: '',
     collection: '',
     gender: 'unisex'
   });
@@ -211,7 +213,7 @@ export default function Admin() {
         setEditingProduct(null);
         setProductForm({
           name: '', name_en: '', description: '', description_en: '',
-          price: '', image: '', collection: '', gender: 'unisex'
+          price: '', image: '', image_hover: '', collection: '', gender: 'unisex'
         });
         fetchProducts();
       } else {
@@ -249,6 +251,7 @@ export default function Admin() {
         description_en: product.description_en,
         price: product.price.toString(),
         image: product.image,
+        image_hover: product.image_hover || '',
         collection: product.collection,
         gender: product.gender
       });
@@ -256,7 +259,7 @@ export default function Admin() {
       setEditingProduct(null);
       setProductForm({
         name: '', name_en: '', description: '', description_en: '',
-        price: '', image: '', collection: '', gender: 'unisex'
+        price: '', image: '', image_hover: '', collection: '', gender: 'unisex'
       });
     }
     setIsProductModalOpen(true);
@@ -600,7 +603,7 @@ export default function Admin() {
                   <p className="text-xs text-muted-foreground">Ex: 10000 = R$ 100,00</p>
                 </div>
                 <div className="space-y-2">
-                  <Label>Imagem URL</Label>
+                  <Label>Imagem URL (Principal)</Label>
                   <div className="flex gap-2">
                     <Input 
                       value={productForm.image}
@@ -651,6 +654,64 @@ export default function Admin() {
                         size="icon"
                         className="w-10 px-0"
                         onClick={() => document.getElementById('product-image-upload')?.click()}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Imagem URL (Hover - Opcional)</Label>
+                  <div className="flex gap-2">
+                    <Input 
+                      value={productForm.image_hover}
+                      onChange={(e) => setProductForm({...productForm, image_hover: e.target.value})}
+                      placeholder="https://... ou upload"
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="product-hover-image-upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+
+                          const formData = new FormData();
+                          formData.append('file', file);
+
+                          try {
+                            const promise = fetch(`${API_BASE_URL}/api/upload`, {
+                              method: 'POST',
+                              body: formData,
+                            }).then(async res => {
+                              if (!res.ok) throw new Error('Upload falhou');
+                              const data = await res.json();
+                              setProductForm(prev => ({ ...prev, image_hover: data.url }));
+                              return data;
+                            });
+
+                            toast.promise(promise, {
+                              loading: 'Enviando imagem...',
+                              success: 'Imagem enviada com sucesso!',
+                              error: 'Erro ao enviar imagem'
+                            });
+                          } catch (error) {
+                            console.error('Upload error:', error);
+                            toast.error('Erro ao fazer upload');
+                          }
+                          
+                          e.target.value = '';
+                        }}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon"
+                        className="w-10 px-0"
+                        onClick={() => document.getElementById('product-hover-image-upload')?.click()}
                       >
                         <Plus className="h-4 w-4" />
                       </Button>

@@ -16,6 +16,7 @@ interface Product {
   description_en: string;
   price: number;
   image: string;
+  image_hover?: string;
   collection: string;
   gender: string;
 }
@@ -166,11 +167,20 @@ export default function Collection() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className={`w-full h-full object-cover transition-all duration-500 ${
+                      product.image_hover ? 'group-hover:opacity-0 absolute inset-0' : 'group-hover:scale-105'
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                  {product.image_hover && (
+                    <img
+                      src={product.image_hover}
+                      alt={`${product.name} hover`}
+                      className="w-full h-full object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
                   <Button 
-                    className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-10"
                     onClick={() => addToCart({
                       id: product.id,
                       name: language === 'pt' ? product.name : product.name_en,
