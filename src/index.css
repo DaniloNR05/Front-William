@@ -11,8 +11,8 @@
 @layer base {
   :root {
     /* Core Palette - Midnight Blue & Gold */
-    --background: 220 54% 4%;
-    --background-soft: 220 54% 8%;
+    --background: 220 54% 7%;
+    --background-soft: 220 54% 11%;
     --foreground: 38 30% 90%;
     
     /* Gold Accents */
@@ -22,10 +22,10 @@
     --gold-rgb: 200, 168, 118;
     
     /* Semantic Colors */
-    --card: 220 54% 6%;
+    --card: 220 54% 9%;
     --card-foreground: 38 30% 90%;
     
-    --popover: 220 54% 5%;
+    --popover: 220 54% 8%;
     --popover-foreground: 38 30% 90%;
     
     --primary: 38 42% 62%;
@@ -73,11 +73,11 @@
     --transition-elegant: 600ms cubic-bezier(0.22, 1, 0.36, 1);
     
     /* Sidebar */
-    --sidebar-background: 220 54% 5%;
+    --sidebar-background: 220 54% 8%;
     --sidebar-foreground: 38 30% 85%;
     --sidebar-primary: 38 42% 62%;
     --sidebar-primary-foreground: 220 54% 4%;
-    --sidebar-accent: 220 30% 12%;
+    --sidebar-accent: 220 30% 15%;
     --sidebar-accent-foreground: 38 30% 85%;
     --sidebar-border: 38 30% 15%;
     --sidebar-ring: 38 42% 62%;
