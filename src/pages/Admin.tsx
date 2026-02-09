@@ -645,15 +645,6 @@ export default function Admin() {
               </div>
 
               <div className="space-y-2">
-                <Label>Imagem URL</Label>
-                <Input 
-                  value={collectionForm.image}
-                  onChange={(e) => setCollectionForm({...collectionForm, image: e.target.value})}
-                  placeholder="https://..."
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label>Descrição (PT)</Label>
                 <Textarea 
                   value={productForm.description}
@@ -710,6 +701,15 @@ export default function Admin() {
                   onChange={(e) => setCollectionForm({...collectionForm, slug: e.target.value})}
                   required
                   placeholder="ex: ternos-formais"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Imagem URL (Capa)</Label>
+                <Input 
+                  value={collectionForm.image}
+                  onChange={(e) => setCollectionForm({...collectionForm, image: e.target.value})}
+                  placeholder="https://..."
                 />
               </div>
 
