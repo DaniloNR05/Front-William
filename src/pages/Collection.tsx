@@ -63,7 +63,8 @@ export default function Collection() {
             // Here we try to match by collection name (en) as stored in product
              const filtered = allProducts.filter(p => 
                 p.collection.toLowerCase() === collection?.name_en.toLowerCase() ||
-                p.collection.toLowerCase() === slug?.replace('-', ' ')
+                p.collection.toLowerCase() === collection?.name_pt.toLowerCase() ||
+                p.collection.toLowerCase() === slug?.replace(/-/g, ' ')
             );
             setProducts(filtered);
         } else {
