@@ -601,11 +601,61 @@ export default function Admin() {
                 </div>
                 <div className="space-y-2">
                   <Label>Imagem URL</Label>
-                  <Input 
-                    value={productForm.image}
-                    onChange={(e) => setProductForm({...productForm, image: e.target.value})}
-                    required
-                  />
+                  <div className="flex gap-2">
+                    <Input 
+                      value={productForm.image}
+                      onChange={(e) => setProductForm({...productForm, image: e.target.value})}
+                      required
+                      placeholder="https://... ou upload"
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="product-image-upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+
+                          const formData = new FormData();
+                          formData.append('file', file);
+
+                          try {
+                            const promise = fetch(`${API_BASE_URL}/api/upload`, {
+                              method: 'POST',
+                              body: formData,
+                            }).then(async res => {
+                              if (!res.ok) throw new Error('Upload falhou');
+                              const data = await res.json();
+                              setProductForm(prev => ({ ...prev, image: data.url }));
+                              return data;
+                            });
+
+                            toast.promise(promise, {
+                              loading: 'Enviando imagem...',
+                              success: 'Imagem enviada com sucesso!',
+                              error: 'Erro ao enviar imagem'
+                            });
+                          } catch (error) {
+                            console.error('Upload error:', error);
+                            toast.error('Erro ao fazer upload');
+                          }
+                          
+                          e.target.value = '';
+                        }}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon"
+                        className="w-10 px-0"
+                        onClick={() => document.getElementById('product-image-upload')?.click()}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
