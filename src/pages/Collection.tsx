@@ -45,26 +45,24 @@ export default function Collection() {
     setLoading(true);
     try {
       // Fetch collection details
+      let currentCollection: CollectionData | null = null;
       const collectionsRes = await fetch(`${API_BASE_URL}/api/collections`);
       if (collectionsRes.ok) {
         const collections: CollectionData[] = await collectionsRes.json();
-        const currentCollection = collections.find(c => c.slug === slug);
-        setCollection(currentCollection || null);
+        currentCollection = collections.find(c => c.slug === slug) || null;
+        setCollection(currentCollection);
       }
 
       // Fetch products
       const productsRes = await fetch(`${API_BASE_URL}/api/products`);
       if (productsRes.ok) {
         const allProducts: Product[] = await productsRes.json();
-        // Filter products by collection name (assuming slug matches collection name or needs mapping)
-        // In a real app, backend should support filtering by collection slug
-        if (collection) {
-            // Filter products by collection name (PT or EN)
+        
+        if (currentCollection) {
              const filtered = allProducts.filter(p => {
-                // Normalize strings for comparison
                 const productCollection = p.collection.toLowerCase().trim();
-                const collectionNameEn = collection.name_en.toLowerCase().trim();
-                const collectionNamePt = collection.name_pt.toLowerCase().trim();
+                const collectionNameEn = currentCollection!.name_en.toLowerCase().trim();
+                const collectionNamePt = currentCollection!.name_pt.toLowerCase().trim();
                 const slugName = slug?.replace(/-/g, ' ').toLowerCase().trim() || '';
 
                 return productCollection === collectionNameEn || 
