@@ -18,6 +18,7 @@ interface Product {
   price: number;
   image: string;
   image_hover?: string;
+  gallery?: string[];
   collection: string;
   gender: string;
 }

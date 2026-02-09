@@ -58,6 +58,7 @@ interface Product {
   price: number;
   image: string;
   image_hover?: string;
+  gallery?: string[];
   collection: string;
   gender: string;
 }
@@ -84,7 +85,18 @@ export default function Admin() {
   const [selectedCollectionFilter, setSelectedCollectionFilter] = useState<string>('all');
   
   // Product Form State
-  const [productForm, setProductForm] = useState({
+  const [productForm, setProductForm] = useState<{
+    name: string;
+    name_en: string;
+    description: string;
+    description_en: string;
+    price: string;
+    image: string;
+    image_hover: string;
+    gallery: string[];
+    collection: string;
+    gender: string;
+  }>({
     name: '',
     name_en: '',
     description: '',
@@ -92,6 +104,7 @@ export default function Admin() {
     price: '',
     image: '',
     image_hover: '',
+    gallery: [],
     collection: '',
     gender: 'unisex'
   });
@@ -213,7 +226,7 @@ export default function Admin() {
         setEditingProduct(null);
         setProductForm({
           name: '', name_en: '', description: '', description_en: '',
-          price: '', image: '', image_hover: '', collection: '', gender: 'unisex'
+          price: '', image: '', image_hover: '', gallery: [], collection: '', gender: 'unisex'
         });
         fetchProducts();
       } else {
@@ -252,6 +265,7 @@ export default function Admin() {
         price: product.price.toString(),
         image: product.image,
         image_hover: product.image_hover || '',
+        gallery: product.gallery || [],
         collection: product.collection,
         gender: product.gender
       });
@@ -259,7 +273,7 @@ export default function Admin() {
       setEditingProduct(null);
       setProductForm({
         name: '', name_en: '', description: '', description_en: '',
-        price: '', image: '', image_hover: '', collection: '', gender: 'unisex'
+        price: '', image: '', image_hover: '', gallery: [], collection: '', gender: 'unisex'
       });
     }
     setIsProductModalOpen(true);
@@ -717,6 +731,105 @@ export default function Admin() {
                       </Button>
                     </div>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Galeria de Imagens</Label>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {productForm.gallery.map((img, index) => (
+                      <div key={index} className="relative w-20 h-20 bg-muted rounded overflow-hidden group">
+                        <img src={img} alt={`Gallery ${index}`} className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          className="absolute top-0 right-0 bg-red-500 text-white p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => {
+                            const newGallery = [...productForm.gallery];
+                            newGallery.splice(index, 1);
+                            setProductForm({...productForm, gallery: newGallery});
+                          }}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <Input 
+                      placeholder="https://... ou upload nova imagem"
+                      id="gallery-input-temp"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          const val = (e.target as HTMLInputElement).value;
+                          if (val) {
+                            setProductForm({...productForm, gallery: [...productForm.gallery, val]});
+                            (e.target as HTMLInputElement).value = '';
+                          }
+                        }
+                      }}
+                    />
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="product-gallery-upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+
+                          const formData = new FormData();
+                          formData.append('file', file);
+
+                          try {
+                            const promise = fetch(`${API_BASE_URL}/api/upload`, {
+                              method: 'POST',
+                              body: formData,
+                            }).then(async res => {
+                              if (!res.ok) throw new Error('Upload falhou');
+                              const data = await res.json();
+                              setProductForm(prev => ({ ...prev, gallery: [...prev.gallery, data.url] }));
+                              return data;
+                            });
+
+                            toast.promise(promise, {
+                              loading: 'Enviando imagem...',
+                              success: 'Imagem adicionada à galeria!',
+                              error: 'Erro ao enviar imagem'
+                            });
+                          } catch (error) {
+                            console.error('Upload error:', error);
+                            toast.error('Erro ao fazer upload');
+                          }
+                          
+                          e.target.value = '';
+                        }}
+                      />
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        size="icon"
+                        className="w-10 px-0"
+                        onClick={() => document.getElementById('product-gallery-upload')?.click()}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <Button 
+                        type="button" 
+                        variant="secondary"
+                        onClick={() => {
+                          const input = document.getElementById('gallery-input-temp') as HTMLInputElement;
+                          if (input.value) {
+                            setProductForm({...productForm, gallery: [...productForm.gallery, input.value]});
+                            input.value = '';
+                          }
+                        }}
+                      >
+                        Adicionar
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Cole a URL e pressione Enter ou clique em Adicionar.</p>
                 </div>
               </div>
 
