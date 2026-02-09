@@ -88,6 +88,9 @@ export default function ProductDetails() {
   if (product.image_hover) {
     images.push(product.image_hover);
   }
+  if (product.gallery && Array.isArray(product.gallery)) {
+    images.push(...product.gallery);
+  }
 
   return (
     <Layout>
