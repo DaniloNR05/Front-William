@@ -162,7 +162,7 @@ export default function Collection() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
+              <Link to={`/product/${product.id}`} key={product.id} className="group cursor-pointer block">
                 <div className="aspect-[3/4] overflow-hidden bg-gray-100 mb-4 relative">
                   <img
                     src={product.image}
@@ -179,26 +179,31 @@ export default function Collection() {
                     />
                   )}
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
-                  <Button 
+                  <div 
                     className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                    onClick={() => addToCart({
-                      id: product.id,
-                      name: language === 'pt' ? product.name : product.name_en,
-                      price: product.price,
-                      image: product.image,
-                      quantity: 1
-                    })}
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent navigation when clicking the add button
+                      addToCart({
+                        id: product.id,
+                        name: language === 'pt' ? product.name : product.name_en,
+                        price: product.price,
+                        image: product.image,
+                        quantity: 1
+                      });
+                    }}
                   >
-                    {language === 'pt' ? 'Adicionar' : 'Add to Cart'}
-                  </Button>
+                    <Button>
+                      {language === 'pt' ? 'Adicionar' : 'Add to Cart'}
+                    </Button>
+                  </div>
                 </div>
-                <h3 className="font-display text-lg mb-1">
+                <h3 className="font-display text-lg mb-1 group-hover:text-primary transition-colors">
                   {language === 'pt' ? product.name : product.name_en}
                 </h3>
                 <p className="text-muted-foreground mb-2 line-clamp-2 text-sm">
                    {language === 'pt' ? product.description : product.description_en}
                 </p>
-              </div>
+              </Link>
             ))}
           </div>
         )}

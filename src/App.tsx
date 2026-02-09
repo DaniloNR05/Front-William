@@ -17,6 +17,7 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Collections from "@/pages/Collections";
 import Collection from "@/pages/Collection";
+import ProductDetails from "@/pages/ProductDetails";
 import Contact from "@/pages/Contact";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -88,6 +89,7 @@ function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:slug" element={<Collection />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<Contact />} />
         
         {/* Auth Routes */}
