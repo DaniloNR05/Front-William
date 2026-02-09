@@ -198,12 +198,6 @@ export default function Collection() {
                 <p className="text-muted-foreground mb-2 line-clamp-2 text-sm">
                    {language === 'pt' ? product.description : product.description_en}
                 </p>
-                <p className="font-medium">
-                  {(product.price / 100).toLocaleString(language === 'pt' ? 'pt-BR' : 'en-US', {
-                    style: 'currency',
-                    currency: 'BRL'
-                  })}
-                </p>
               </div>
             ))}
           </div>
