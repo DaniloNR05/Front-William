@@ -134,9 +134,9 @@ export const translations = {
       updateError: 'Error updating profile. Try again.'
     },
     about: {
-      impact: "In a short time, William Pignatti became a well-kept secret among influential people — CEOs, architects, diplomats, art collectors — who seek what the market doesn't offer: luxury without noise.",
+      impact: "In a short time, William Pignatti became a well-kept secret among influential people, CEOs, architects, diplomats, art collectors, who seek what the market doesn't offer: luxury without noise.",
       description: [
-        'Without billboard campaigns, without invasive advertising, the brand grows through whispers — a personal recommendation here, a memorable experience there.',
+        'Without billboard campaigns, without invasive advertising, the brand grows through whispers, a personal recommendation here, a memorable experience there.',
         "The William Pignatti client doesn't buy a piece, they buy the language of an attitude: sobriety, self-mastery, effortless sophistication. The brand doesn't sell fashion. It sells permanence."
       ]
     },
@@ -300,9 +300,9 @@ export const translations = {
       updateError: 'Erro ao atualizar perfil. Tente novamente.'
     },
     about: {
-      impact: 'Em pouco tempo, William Pignatti tornou-se um segredo bem guardado entre pessoas de influência — CEOs, arquitetos, diplomatas, colecionadores de arte — que buscam aquilo que o mercado não oferece: luxo sem ruído.',
+      impact: 'Em pouco tempo, William Pignatti tornou-se um segredo bem guardado entre pessoas de influência, CEOs, arquitetos, diplomatas, colecionadores de arte, que buscam aquilo que o mercado não oferece: luxo sem ruído.',
       description: [
-        'Sem campanhas em outdoor, sem publicidade invasiva, a marca cresce por sussurros — uma recomendação pessoal aqui, uma experiência memorável ali.',
+        'Sem campanhas em outdoor, sem publicidade invasiva, a marca cresce por sussurros, uma recomendação pessoal aqui, uma experiência memorável ali.',
         'O cliente William Pignatti não compra uma peça, compra a linguagem de uma atitude: sobriedade, autodomínio, sofisticação sem esforço. A marca não vende moda. Vende permanência.'
       ]
     },
