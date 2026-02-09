@@ -706,11 +706,62 @@ export default function Admin() {
 
               <div className="space-y-2">
                 <Label>Imagem URL (Capa)</Label>
-                <Input 
-                  value={collectionForm.image}
-                  onChange={(e) => setCollectionForm({...collectionForm, image: e.target.value})}
-                  placeholder="https://..."
-                />
+                <div className="flex gap-2">
+                  <Input 
+                    value={collectionForm.image}
+                    onChange={(e) => setCollectionForm({...collectionForm, image: e.target.value})}
+                    placeholder="https://... ou faça upload"
+                  />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="collection-image-upload"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        const formData = new FormData();
+                        formData.append('file', file);
+
+                        try {
+                          const promise = fetch(`${API_BASE_URL}/api/upload`, {
+                            method: 'POST',
+                            body: formData,
+                          }).then(async res => {
+                            if (!res.ok) throw new Error('Upload falhou');
+                            const data = await res.json();
+                            setCollectionForm(prev => ({ ...prev, image: data.url }));
+                            return data;
+                          });
+
+                          toast.promise(promise, {
+                            loading: 'Enviando imagem...',
+                            success: 'Imagem enviada com sucesso!',
+                            error: 'Erro ao enviar imagem'
+                          });
+                        } catch (error) {
+                          console.error('Upload error:', error);
+                          toast.error('Erro ao fazer upload');
+                        }
+                        
+                        // Reset input
+                        e.target.value = '';
+                      }}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => document.getElementById('collection-image-upload')?.click()}
+                    >
+                      Upload
+                    </Button>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Cole uma URL externa ou faça upload de uma imagem do seu computador.
+                </p>
               </div>
 
               <div className="space-y-2">
