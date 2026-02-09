@@ -49,7 +49,24 @@ export default function Collection() {
       const collectionsRes = await fetch(`${API_BASE_URL}/api/collections`);
       if (collectionsRes.ok) {
         const collections: CollectionData[] = await collectionsRes.json();
+        
+        // Try exact match
         currentCollection = collections.find(c => c.slug === slug) || null;
+        
+        // Try case-insensitive match
+        if (!currentCollection && slug) {
+          currentCollection = collections.find(c => c.slug.toLowerCase() === slug.toLowerCase()) || null;
+        }
+
+        // Try matching by name (replacing hyphens with spaces) as fallback
+        if (!currentCollection && slug) {
+           const slugSpace = slug.replace(/-/g, ' ').toLowerCase();
+           currentCollection = collections.find(c => 
+               c.name_pt.toLowerCase() === slugSpace || 
+               c.name_en.toLowerCase() === slugSpace
+           ) || null;
+        }
+
         setCollection(currentCollection);
       }
 
